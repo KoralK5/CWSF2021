@@ -56,8 +56,8 @@ for row in range(size):
             X.append(features)
             Y.append(label)
 
-        # model.fit(np.array(X).reshape(-1, 96, 96, 3)/255.0, np.array(Y), batch_size=1)
-        # model.save('HistoCNN2.model')
+        model.fit(np.array(X).reshape(-1, 96, 96, 3)/255.0, np.array(Y), batch_size=1)
+        model.save('HistoCNN2.model')
         
         trainingData = []
     
