@@ -1,0 +1,6 @@
+Flask
+tensorflow
+numpy
+cv2
+io
+Pillow
