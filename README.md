@@ -3,7 +3,8 @@ Our 2021 Canada Wide Science Fair repository containing our code.
 
 [Optimizer Proposal](https://www.overleaf.com/read/rxntpctkzbxt)
 
-[Dataset](https://www.kaggle.com/c/histopathologic-cancer-detection/data)
+##Datasets:
+[Histopathology](https://www.kaggle.com/c/histopathologic-cancer-detection/data), [Leukemia Classification](https://www.kaggle.com/andrewmvd/leukemia-classification)
 
 ![picture](https://user-images.githubusercontent.com/62809012/113470838-76ef6280-9426-11eb-8cd8-2e638ea22740.JPG)
 
