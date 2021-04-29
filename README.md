@@ -1,7 +1,7 @@
 # CWSF
 Our 2021 Canada Wide Science Fair repository containing our code.
 
-[Optimizer Proposal](https://github.com/KoralK5/YRSTF2021/files/6254010/Debounce.pdf)
+[Optimizer Proposal](https://www.overleaf.com/read/rxntpctkzbxt)
 
 [Dataset](https://www.kaggle.com/c/histopathologic-cancer-detection/data)
 
