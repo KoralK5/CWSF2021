@@ -1,7 +1,8 @@
 # CWSF
 Our 2021 Canada Wide Science Fair repository containing our code.
 
-[Optimizer Proposal](https://www.overleaf.com/read/rxntpctkzbxt)
+## Optimizer:
+[Debounce](https://www.overleaf.com/read/rxntpctkzbxt)
 
 ## Datasets:
 [Histopathology](https://www.kaggle.com/c/histopathologic-cancer-detection/data), [Leukemia Classification](https://www.kaggle.com/andrewmvd/leukemia-classification)
