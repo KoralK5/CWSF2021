@@ -3,6 +3,7 @@ Our 2021 Canada Wide Science Fair repository containing our code.
 
 ## Optimizer:
 [Debounce](https://www.overleaf.com/read/rxntpctkzbxt)
+[Testing](https://replit.com/@KoralKulacoglu/Optimizers)
 
 ## Datasets:
 [Histopathology](https://www.kaggle.com/c/histopathologic-cancer-detection/data), [Leukemia Classification](https://www.kaggle.com/andrewmvd/leukemia-classification)
