@@ -7,7 +7,9 @@ Our 2021 Canada Wide Science Fair repository containing our code.
 [Testing](https://replit.com/@KoralKulacoglu/Optimizers)
 
 ## Datasets:
-[Histopathology](https://www.kaggle.com/c/histopathologic-cancer-detection/data), [Leukemia Classification](https://www.kaggle.com/andrewmvd/leukemia-classification)
+[Histopathology](https://www.kaggle.com/c/histopathologic-cancer-detection/data)
+
+[Leukemia Classification](https://www.kaggle.com/andrewmvd/leukemia-classification)
 
 ## Demonstrations:
 ![picture](https://user-images.githubusercontent.com/62809012/113470838-76ef6280-9426-11eb-8cd8-2e638ea22740.JPG)
