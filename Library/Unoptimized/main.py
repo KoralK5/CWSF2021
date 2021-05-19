@@ -1,4 +1,5 @@
 import numpy as np
+from time import time
 from CNN import *
 
 
@@ -49,14 +50,17 @@ def fullTrain():
 
 dims = (96,96,3)
 inp = np.arange(np.prod(dims)).reshape(dims[0],dims[1]*dims[2])
-out = np.arange(1)
+out = np.arange(2)
 
 conv = Conv(18,7)
 maxp = Maxpool(4)
 
+start = time()
 output, loss, accuracy = network(inp, out, conv, maxp)
+end = time()
 
-print('Output:', output)
-print('Real:  ', out)
-print('Loss:  ', loss)
-print('Accuracy:  ', accuracy)
+print('Output   ➤ ', output)
+print('Real     ➤ ', out)
+print('Loss     ➤ ', loss)
+print('Accuracy ➤ ', accuracy)
+print('Time     ➤ ', '{0:.4f}'.format(end - start), 'seconds')
