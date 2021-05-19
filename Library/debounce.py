@@ -2,6 +2,7 @@ import NeuralNetwork as nn
 from numpy import tanh
 import _pickle as cPickle
 
+
 class Layer:
 	def __init__(self, inputs, weights, outputs, dx):
 		self.inputs = inputs
@@ -40,6 +41,7 @@ class Layer:
 			preVelI = velI
 		return newWeights, newInputs
 
+	
 class Network:
 	def __init__(self, inputs, weights, outputs, dx):
 		self.inputs = inputs
@@ -65,6 +67,7 @@ class Network:
 					newWeights[layer][neuron][weight] -= self.adjustWeight(layer, neuron, weight) * rate
 		return newWeights
 
+	
 def backPropagation(inputs, weights, outputs, dx, rate, beta, scale):
 	newWeights = cPickle.loads(cPickle.dumps(weights[::-1], -1))
 	newOutputs = cPickle.loads(cPickle.dumps(outputs, -1))
