@@ -7,7 +7,7 @@ from os import system
 
 app = Flask(__name__)
 
-modelPath = 'path'
+modelPath = 'path\\models'
 model = load_model(f'{modelPath}\\HistoCNN.model')
 typ = 'h'
 
