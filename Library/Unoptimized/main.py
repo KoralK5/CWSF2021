@@ -3,27 +3,35 @@ from time import time
 from CNN import *
 
 
+def cross_entropy(p, q, epsilon=1e-12):
+	return -sum([p[i]*np.log2(q[i]+epsilon) for i in range(len(p))])
+
+
+def accuracy_eval(p, q):
+	return np.argmax(p) == np.argmax(q)
+
+
 def network(image, label, conv, maxp):
 	out1 = conv.forward_prop(image)
 	out2 = maxp.forward_prop(out1)
 	out3 = Softmax(np.prod(out2.shape), label.size).forward_prop(out2)
 
-	cross_ent_loss = -np.log(out3[label])
-	accuracy_eval = np.argmax(out3) == label
-		
-	return out3, cross_ent_loss, accuracy_eval
+	loss = cross_entropy(out3, label)
+	accuracy = accuracy_eval(out3, label)
+
+	return out3, loss, accuracy
 
 
 def train(image, label, rate=0.1):
 	out, loss, acc = cnn_forward_prop(image, label)
-		
+	
 	gradient = np.zeros(1)
 	gradient[label] = -1/out[label]
-		
+	
 	back = acti.back_prop(gradient, rate)
 	back = maxp.back_prop(back)
 	back = conv.back_prop(back, rate)
-		
+
 	return loss, acc
 
 
@@ -48,19 +56,26 @@ def fullTrain():
 			num_correct += accu
 
 
-dims = (96,96,3)
-inp = np.arange(np.prod(dims)).reshape(dims[0],dims[1]*dims[2])
-out = np.arange(2)
+inputs = np.random.rand(100,96,96*3)
+outputs = np.zeros((100,2))
+for row in range(len(outputs)):
+	outputs[row][np.random.choice(len(outputs[row]))] = 1
 
 conv = Conv(18,7)
 maxp = Maxpool(4)
 
 start = time()
-output, loss, accuracy = network(inp, out, conv, maxp)
+l, a, size = 0, 0, len(outputs)
+for row in range(size):
+	output, loss, accuracy = network(inputs[row], outputs[row], conv, maxp)
+	l += loss
+
+	print('Output   ➤ ', output)
+	print('Real     ➤ ', outputs[row])
+	print('Loss     ➤ ', loss)
+	print('Accuracy ➤ ', accuracy)
+	print('Time     ➤ ', f'{int(time() - start)}s\n')
 end = time()
 
-print('Output   ➤ ', output)
-print('Real     ➤ ', out)
-print('Loss     ➤ ', loss)
-print('Accuracy ➤ ', accuracy)
+print('\nLoss     ➤ ', l/size)
 print('Time     ➤ ', '{0:.4f}'.format(end - start), 'seconds')
