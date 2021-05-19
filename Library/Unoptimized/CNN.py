@@ -1,6 +1,5 @@
 import numpy as np
 
-
 class Conv:
 	def __init__(self, num_filters, filter_size):
 		self.num_filters = num_filters
@@ -29,7 +28,6 @@ class Conv:
 				dL_dF_params[z] += image_patch * dL_dout[x,y,z]
 		self.conv_filter -= learning_rate * dL_dF_params
 		return dL_dF_params
-
 
 class Maxpool:
 	def __init__(self, filter_size):
@@ -64,7 +62,6 @@ class Maxpool:
 							dL_dmax_pool[x*self.filter_size+i, y*self.filter_size+j, k] -= dL_dout[x,y,k]
 
 		return dL_dmax_pool
-
 
 class Softmax:
 	def __init__(self, input_node, softmax_node):
