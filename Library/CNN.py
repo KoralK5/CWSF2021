@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 
 
 class Conv:
@@ -106,48 +105,3 @@ class Softmax:
 			self.bias -= learning_rate * dL_db
 			
 			return dL_d_inp.reshape(self.orig_im_shape)
-
-
-def network(image, label):
-	out1 = conv.forward_prop(img)
-	out2 = maxp.forward_prop(out1)
-	out3 = acti.forward_prop(out2)
-		
-	cross_ent_loss = -np.log(out_p[label])
-	accuracy_eval = np.argmax(out_p) == label
-		
-	return out_p, cross_ent_loss, accuracy_eval
-
-
-def train(image, label, rate=0.1):
-	out, loss, acc = cnn_forward_prop(image, label)
-		
-	gradient = np.zeros(1)
-	gradient[label] = -1/out[label]
-		
-	back = Softmax.back_prop(gradient, rate)
-	back = Maxpool.back_prop(back)
-	back = Conv.back_prop(back, rate)
-		
-	return loss, acc
-
-
-def fullTrain():
-	for epoch in range(1):
-		print(f'Epoch {epoch+1}')
-
-		shuffled_data = np.random.permutation(len(train_images))
-		train_images = train_images[shuffled_data]
-		train_labels = train_labels[shuffled_data]
-
-		loss, num_correct = 0, 0
-		for i, (im, label) in enumerate(zip(train_images, train_labels)):
-			if i%100 == 0:
-				print('Iteration:', i+1)
-				print('Loss:     ', float("{0:.4f}".format(loss/100)))
-				print('Accuracy: ', num_correct)
-				loss, num_correct = 0, 0
-
-			l, accu = training_cnn(im, label)
-			loss += l
-			num_correct += accu
