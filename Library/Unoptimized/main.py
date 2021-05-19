@@ -22,7 +22,7 @@ def test(image, label, conv, maxp, acti):
 	return out, loss, accuracy
 
 
-def train(image, label, conv, maxp, acti, rate=0.1):
+def train(image, label, conv, maxp, acti, rate=0.005):
 	out, loss, acc = test(image, label, conv, maxp, acti)
 
 	gradient = np.zeros(label.shape)
