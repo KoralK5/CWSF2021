@@ -8,16 +8,16 @@ def accuracy_eval(p, q):
 	return np.argmax(p) == np.argmax(q)
 
 def test(image, label, conv, maxp, acti):
-	out = conv.forward_prop(image)
-	out = maxp.forward_prop(out)
-	out = acti.forward_prop(out)
+	image = conv.forward_prop(image)
+	image = maxp.forward_prop(image)
+	image = acti.forward_prop(image)
 
-	loss = cross_entropy(out, label)
-	accuracy = accuracy_eval(out, label)
+	loss = cross_entropy(image, label)
+	accuracy = accuracy_eval(image, label)
 
-	return out, loss, accuracy
+	return image, loss, accuracy
 
-def train(image, label, conv, maxp, acti, rate=0.0005):
+def train(image, label, rate, conv, maxp, acti):
 	out, loss, acc = test(image, label, conv, maxp, acti)
 
 	gradient = np.zeros(label.shape)
