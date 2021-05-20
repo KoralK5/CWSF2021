@@ -42,7 +42,7 @@ def run(data, rate, epochs, model, path):
 	l, a, size = [], [], len(data)
 	for epoch in range(epochs):
 		for row in range(size):
-			output, loss, accuracy = train(data[row][0], data[row][1], rate, *model)
+			output, loss, accuracy = train(data[row][0], data[row][1], model, rate)
 			l.append(loss); a.append(accuracy)
 
 			np.save(f'{path}model\\weights.npy', np.array([model[2].weight, model[2].bias], dtype=object))
@@ -64,13 +64,18 @@ def run(data, rate, epochs, model, path):
 
 print('\nReading Data')
 
-path = 'Unoptimized\\'
-dataPath = 'LeukemiaData\\C-NMC_Leukemia\\training_data'
+path = 'CWSF\\KorCNN\\'
+dataPath = 'CWSF\\LeukemiaData\\C-NMC_Leukemia\\training_data'
 
 data = grab(dataPath)
-rate = 0.005
+rate = 0.0001
 epochs = 3
-model = (Conv(18,7), Maxpool(4), Softmax(22*70*18, data[0][1].size))
+
+model = [
+	Conv(18,7),
+	Maxpool(4),
+	Softmax(22*70*18, data[0][1].size)
+	]
 
 print('\nTraining Model')
 
