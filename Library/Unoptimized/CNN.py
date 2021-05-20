@@ -21,7 +21,7 @@ class Conv:
 			conv_out[x, y] = np.sum(image_patch*self.conv_filter, axis=(1,2))
 		return conv_out
 		
-	def back_prop(self, dL_dout, learning_rate=0.1):
+	def back_prop(self, dL_dout, learning_rate=0.001):
 		dL_dF_params = np.zeros(self.conv_filter.shape)
 		for image_patch, x, y, in self.image_region(self.image):
 			for z in range(self.num_filters):
@@ -49,7 +49,7 @@ class Maxpool:
 			output[x, y] = np.amax(image_patch, axis=(0,1))
 		return output
 		
-	def back_prop(self, dL_dout, learning_rate=0.1):
+	def back_prop(self, dL_dout, learning_rate=0.001):
 		dL_dmax_pool = np.zeros(self.image.shape)
 		for image_patch, x, y in self.image_region(self.image):
 			height, width, num_filters = image_patch.shape
@@ -74,10 +74,10 @@ class Softmax:
 		self.modified_input = image_modified
 		output_val = np.dot(image_modified, self.weight) + self.bias
 		self.out = output_val
-		exp_out = np.exp(output_val)
+		exp_out = np.exp(output_val - np.max(output_val))
 		return exp_out/np.sum(exp_out, axis=0)
 		
-	def back_prop(self, dL_dout, learning_rate=0.1):
+	def back_prop(self, dL_dout, learning_rate=0.001):
 		for i, grad in enumerate(dL_dout):
 			if not grad:
 				continue
