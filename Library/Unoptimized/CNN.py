@@ -21,7 +21,7 @@ class Conv:
 			conv_out[x, y] = np.sum(image_patch*self.conv_filter, axis=(1,2))
 		return conv_out
 		
-	def back_prop(self, dL_dout, learning_rate=0.001):
+	def back_prop(self, dL_dout, optimizer, learning_rate=0.001, beta=0.9, scale=0.9):
 		dL_dF_params = np.zeros(self.conv_filter.shape)
 		for image_patch, x, y, in self.image_region(self.image):
 			for z in range(self.num_filters):
@@ -49,7 +49,7 @@ class Maxpool:
 			output[x, y] = np.amax(image_patch, axis=(0,1))
 		return output
 		
-	def back_prop(self, dL_dout, learning_rate=0.001):
+	def back_prop(self, dL_dout, optimizer, learning_rate=0.001, beta=0.9, scale=0.9):
 		dL_dmax_pool = np.zeros(self.image.shape)
 		for image_patch, x, y in self.image_region(self.image):
 			height, width, num_filters = image_patch.shape
@@ -77,7 +77,8 @@ class Softmax:
 		exp_out = np.exp(output_val - np.max(output_val))
 		return exp_out/np.sum(exp_out, axis=0)
 		
-	def back_prop(self, dL_dout, learning_rate=0.001):
+	def back_prop(self, dL_dout, optimizer, learning_rate=0.001, beta=0.9, scale=0.9):
+		weight_momentum, weight_velocity, bias_momentum, bias_velocity = 0, 0, 0, 0
 		for i, grad in enumerate(dL_dout):
 			if not grad:
 				continue
@@ -102,8 +103,10 @@ class Softmax:
 			dL_db = dL_dz * dz_db
 			dL_d_inp = dz_d_inp @ dL_dz
 			
-			#updates
-			self.weight -= learning_rate * dL_dw
-			self.bias -= learning_rate * dL_db
+			#weight update
+			self.weight, weight_momentum, weight_velocity = optimizer(self.weight, dL_dw, time=i, rate=learning_rate, beta=beta, scale=scale, momentum=weight_momentum, velocity=weight_velocity)
+			
+			#bias update
+			self.bias, bias_momentum, bias_velocity = optimizer(self.bias, dL_db, time=i, rate=learning_rate, beta=beta, scale=scale, momentum=bias_momentum, velocity=bias_velocity)
 			
 			return dL_d_inp.reshape(self.orig_im_shape)
