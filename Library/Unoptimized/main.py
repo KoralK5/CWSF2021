@@ -7,10 +7,11 @@ from matplotlib import pyplot as plt
 from cv2 import imread, resize
 from CNN import *
 from train import *
+from optimizers import *
 np.random.seed(1)
 
 def fix(img):
-    return np.array(resize(img, (96,96)).reshape(96,96*3))/255.0
+	return np.array(resize(img, (96,96)).reshape(96,96*3)) / 255.0
 
 def grab(path):
 	data = []
@@ -23,6 +24,7 @@ def grab(path):
 			output = int(category=='hem')
 			for img in os.listdir(p):
 				data.append([fix(imread(os.path.join(p,img))), np.array([output, not(output)])])
+		return data
 	np.random.shuffle(data)
 	return data
 
@@ -37,12 +39,13 @@ def plot(acc, loss, title):
 
 	plt.show()
 
-def run(data, rate, epochs, model, path):
+def run(data, model, optimizer, path, rate=0.001, beta=0.9, scale=1, epochs=3):
 	start = time()
+	f = open(f'{path}model\\scores.txt', 'r+'); f.truncate(0)
 	l, a, size = [], [], len(data)
 	for epoch in range(epochs):
 		for row in range(size):
-			output, loss, accuracy = train(data[row][0], data[row][1], model, rate)
+			output, loss, accuracy = train(data[row][0], data[row][1], model, optimizer, rate, beta, scale)
 			l.append(loss); a.append(accuracy)
 
 			np.save(f'{path}model\\weights.npy', np.array([model[2].weight, model[2].bias], dtype=object))
@@ -64,11 +67,15 @@ def run(data, rate, epochs, model, path):
 
 print('\nReading Data')
 
-path = 'CWSF\\KorCNN\\'
-dataPath = 'CWSF\\LeukemiaData\\C-NMC_Leukemia\\training_data'
+path = 'D:\\Users\\Koral Kulacoglu\\Coding\\python\\AI\\CWSF\\KorCNN\\'
+dataPath = 'D:\\Users\\Koral Kulacoglu\\Coding\\python\\AI\\CWSF\\LeukemiaData\\C-NMC_Leukemia\\training_data'
 
 data = grab(dataPath)
-rate = 0.0001
+
+optimizer = gradient_descent
+rate = 0.005
+beta = 0.9
+scale = 1
 epochs = 3
 
 model = [
@@ -79,7 +86,7 @@ model = [
 
 print('\nTraining Model')
 
-accuracy, loss = run(data, rate, epochs, model, path)
+accuracy, loss = run(data, model, optimizer, path, rate, beta, scale, epochs)
 
 epoch_accuracy = np.sum(np.array_split(accuracy, epochs), axis=1) / len(outputs)
 epoch_loss = np.sum(np.array_split(loss, epochs), axis=1) / len(outputs)
