@@ -4,8 +4,8 @@ from CNN import *
 def error_squared(p, q):
 	return np.sum((p - q)**2)
 
-def cross_entropy(p, q, epsilon=1e-12):
-	return -sum([p[i]*np.log2(q[i]+epsilon) for i in range(len(p))])
+def cross_entropy(p, q):
+	return -sum([p[i]*np.log2(q[i]+1e-12) for i in range(len(p))])
 
 def accuracy_eval(p, q):
 	return np.argmax(p) == np.argmax(q)
@@ -19,7 +19,7 @@ def test(image, label, model):
 
 	return image, loss, accuracy
 
-def train(image, label, model, rate=0.1):
+def train(image, label, model, optimizer, rate=0.001, beta=0.9, scale=0.9):
 	out, loss, acc = test(image, label, model)
 
 	gradient = np.zeros(label.shape)
@@ -27,6 +27,6 @@ def train(image, label, model, rate=0.1):
 
 	back = gradient
 	for layer in model[::-1]:
-		back = layer.back_prop(back, rate)
+		back = layer.back_prop(back, optimizer, rate, beta, scale)
 
 	return out, loss, acc
