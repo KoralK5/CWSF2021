@@ -1,4 +1,4 @@
-# CWSF
+# CancerNN
 Our 2021 Canada Wide Science Fair repository containing our code.
 
 <img src="https://user-images.githubusercontent.com/62809012/113470838-76ef6280-9426-11eb-8cd8-2e638ea22740.JPG" alt="Histopathology analysis with an artificial neural network" width="500"/>
